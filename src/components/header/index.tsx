@@ -7,7 +7,7 @@ export default function Header() {
   const loadingAuth = false
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-slate-200 drop-shadow-2xl">
+    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-slate-200 drop-shadow-2xl mb-4">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         <Link to="/" className="flex items-center">
           <img src={logoImg} alt="CarroFacil" className="h-11 w-auto" />
