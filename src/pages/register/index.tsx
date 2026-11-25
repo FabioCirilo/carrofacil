@@ -50,7 +50,7 @@ export default function Register() {
     }
 
     toast.success('Cadastrado com sucesso')
-    navigate('/dashboard')
+    navigate('/')
   }
 
   return (
