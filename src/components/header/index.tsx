@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
 import logoImg from '../../assets/logo.svg'
 import { FiUser, FiLogIn } from 'react-icons/fi'
+import { useAuth } from '../../contexts/auth/useAuth'
 
 export default function Header() {
-  const signed = true
-  const loadingAuth = false
+  const { signed, loadingAuth } = useAuth()
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-slate-200 drop-shadow-2xl mb-4">

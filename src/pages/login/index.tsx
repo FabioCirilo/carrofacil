@@ -37,10 +37,13 @@ export default function Login() {
   async function onSubmit(data: FormData) {
     setLoading(true)
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: result, error } = await supabase.auth.signInWithPassword({
       email: data.email,
       password: data.password
     })
+
+    console.log('LOGIN resultado:', result)
+    console.log('LOGIN erro:', error)
 
     setLoading(false)
 
