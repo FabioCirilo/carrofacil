@@ -1,4 +1,4 @@
-import {} from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import { FiMail, FiLock, FiEdit2 } from 'react-icons/fi'
 import Container from '../../components/container'
@@ -25,6 +25,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function Register() {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const {
@@ -37,6 +38,8 @@ export default function Register() {
   })
 
   async function onSubmit(data: FormData) {
+    setLoading(true)
+
     const { error } = await supabase.auth.signUp({
       email: data.email,
       password: data.password,
@@ -46,10 +49,12 @@ export default function Register() {
     })
     if (error) {
       console.log(error)
+      setLoading(false)
       return
     }
 
     toast.success('Cadastrado com sucesso')
+    setLoading(false)
     navigate('/')
   }
 
@@ -131,7 +136,7 @@ export default function Register() {
               type="submit"
               className="mt-2 h-11 w-full rounded-xl bg-blue-600 font-medium text-white transition hover:bg-blue-700 active:scale-[0.99]"
             >
-              Cadastrar
+              {loading ? 'Carregando...' : 'Cadastrar'}
             </button>
           </form>
 

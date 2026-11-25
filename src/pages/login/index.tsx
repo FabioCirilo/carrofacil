@@ -1,5 +1,5 @@
-import {} from 'react'
-import { Link } from 'react-router'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
 import { FiMail, FiLock } from 'react-icons/fi'
 import Container from '../../components/container'
 import logoImg from '../../assets/logo.svg'
@@ -7,6 +7,8 @@ import Input from '../../components/input'
 import z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { supabase } from '../../service/supabaseClient'
+import { toast } from 'react-toastify'
 
 const schema = z.object({
   email: z
@@ -19,6 +21,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function Login() {
+  const [loading, setLoading] = useState(false)
+
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -28,8 +34,23 @@ export default function Login() {
     mode: 'onChange'
   })
 
-  function onSubmit(data: FormData) {
-    console.log(data)
+  async function onSubmit(data: FormData) {
+    setLoading(true)
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: data.email,
+      password: data.password
+    })
+
+    setLoading(false)
+
+    if (error) {
+      console.log('Email ou senha incorretos')
+      return
+    }
+
+    toast.success('Utilizador logado com sucesso')
+    navigate('/')
   }
 
   return (
@@ -92,7 +113,7 @@ export default function Login() {
               type="submit"
               className="mt-2 h-11 w-full rounded-xl bg-blue-600 font-medium text-white transition hover:bg-blue-700 active:scale-[0.99]"
             >
-              Entrar
+              {loading ? 'Carregando' : 'Entrar'}
             </button>
           </form>
 
