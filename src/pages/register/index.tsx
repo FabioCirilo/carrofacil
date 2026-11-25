@@ -1,5 +1,5 @@
 import {} from 'react'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import { FiMail, FiLock, FiEdit2 } from 'react-icons/fi'
 import Container from '../../components/container'
 import logoImg from '../../assets/logo.svg'
@@ -7,6 +7,8 @@ import Input from '../../components/input'
 import z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { supabase } from '../../service/supabaseClient'
+import { toast } from 'react-toastify'
 
 const schema = z.object({
   email: z
@@ -23,6 +25,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function Register() {
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -32,8 +36,21 @@ export default function Register() {
     mode: 'onChange'
   })
 
-  function onSubmit(data: FormData) {
-    console.log(data)
+  async function onSubmit(data: FormData) {
+    const { error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: { name: data.name }
+      }
+    })
+    if (error) {
+      console.log(error)
+      return
+    }
+
+    toast.success('Cadastrado com sucesso')
+    navigate('/dashboard')
   }
 
   return (
