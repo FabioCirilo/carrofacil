@@ -55,7 +55,7 @@ export default function Register() {
 
     toast.success('Cadastrado com sucesso')
     setLoading(false)
-    navigate('/')
+    navigate('/dashboard')
   }
 
   return (

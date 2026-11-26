@@ -53,7 +53,7 @@ export default function Login() {
     }
 
     toast.success('Utilizador logado com sucesso')
-    navigate('/')
+    navigate('/dashboard')
   }
 
   return (
