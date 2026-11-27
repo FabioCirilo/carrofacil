@@ -31,7 +31,7 @@ export default function Header() {
               onClick={handleSignOut}
               className="flex h-10 items-center gap-2 rounded-full border border-slate-200 px-4 text-sm font-medium text-slate-700 transition hover:border-red-500 hover:bg-red-50 hover:text-red-600"
             >
-              <FiLogOut size={18} />
+              <FiLogOut size={18} color="red" />
               <span className="hidden sm:inline">Sair</span>
             </button>
           </div>
