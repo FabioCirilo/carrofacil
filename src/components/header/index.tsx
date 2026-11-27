@@ -1,10 +1,14 @@
 import { Link } from 'react-router'
 import logoImg from '../../assets/logo.svg'
-import { FiUser, FiLogIn } from 'react-icons/fi'
+import { FiUser, FiLogIn, FiLogOut } from 'react-icons/fi'
 import { useAuth } from '../../contexts/auth/useAuth'
 
 export default function Header() {
-  const { signed, loadingAuth } = useAuth()
+  const { signed, loadingAuth, signOut } = useAuth()
+
+  function handleSignOut() {
+    signOut()
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur border-b border-slate-200 drop-shadow-2xl mb-4">
@@ -14,13 +18,23 @@ export default function Header() {
         </Link>
 
         {!loadingAuth && signed && (
-          <Link
-            to="/dashboard"
-            aria-label="Painel do utilizador"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-800 transition hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600"
-          >
-            <FiUser size={20} />
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/dashboard"
+              aria-label="Painel do utilizador"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-800 transition hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600"
+            >
+              <FiUser size={20} />
+            </Link>
+
+            <button
+              onClick={handleSignOut}
+              className="flex h-10 items-center gap-2 rounded-full border border-slate-200 px-4 text-sm font-medium text-slate-700 transition hover:border-red-500 hover:bg-red-50 hover:text-red-600"
+            >
+              <FiLogOut size={18} />
+              <span className="hidden sm:inline">Sair</span>
+            </button>
+          </div>
         )}
 
         {!loadingAuth && !signed && (
